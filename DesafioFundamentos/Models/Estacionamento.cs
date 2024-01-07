@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace DesafioFundamentos.Models
 {
     public class Estacionamento
@@ -19,11 +21,20 @@ namespace DesafioFundamentos.Models
 
         public void AdicionarVeiculo()
         {
-            Console.WriteLine("Digite a placa do veículo para estacionar:");
-            string veiculo = Console.ReadLine();
+            Console.WriteLine("Digite a placa do veículo no formato para estacionar, utilizar o formato 'XXX-0000':");
+            string placa = Console.ReadLine();
 
             // TODO: Verificação na Placa, para ver se esta no padrão "XXX-NNNN"    
-            veiculos.Add(veiculo); // Adicionando um novo veiculo
+            Regex regex = new Regex(@"^[a-z]{3}-\d{4}$");
+            if (regex.IsMatch(placa))
+            { 
+                veiculos.Add(placa); // Adicionando um novo veiculo
+                Console.WriteLine("Veículo cadastrado com Sucesso!");
+            }
+            else 
+            { // Não está no Padrão de 3 letras - 4 números
+                Console.WriteLine("Placa inserida no formato Invalido, por favor utilizar o Formato 'XXX-0000'(3 Letras - 4 Números)");
+            }
         }
 
         public void RemoverVeiculo()
@@ -66,14 +77,14 @@ namespace DesafioFundamentos.Models
             // Verifica se há veículos no estacionamento
             if (veiculos.Any())
             {
-                Console.WriteLine("===========");
+                Console.WriteLine("=============================");
                 Console.WriteLine("Os veículos estacionados são:");
-                Console.WriteLine("-----------");
+                Console.WriteLine("-----------------------------");
                 foreach (string placas in veiculos)
                 {
                     Console.WriteLine(placas);
                 }
-                Console.WriteLine("===========");
+                Console.WriteLine("=============================");
             }
             else
             {
